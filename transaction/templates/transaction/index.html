@@ -1,0 +1,78 @@
+{% extends "atm/base.html" %}
+
+{% block title %}Account{% endblock title %}
+
+{% block header %}
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="">Home</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0)">Dashboard</a></li>
+                    <li class="breadcrumb-item" aria-current="page">All</li>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <div class="page-header-title">
+                  <h2 class="mb-0">All</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h5>Transactions</h5>
+      </div>
+      <div class="card-body table-border-style">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger" role="alert">
+                        <ul><li>{{ message }}</li></ul>
+                    </div>
+                {% elif message.tags == 'success' %}
+                    <div class="alert alert-success" role="alert">
+                        <ul><li>{{ message }}</li></ul>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Account No.</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                    <th>{{transaction.id}}</th>
+                    <th>{{transaction.account.account_no}}</th>
+                    <th>{{transaction.transaction_type}}</th>
+                    <th>{{transaction.amount}}</th>
+                    <th>{{transaction.created_at}}</th>
+                    <th>{{transaction.sender.username}}</th>
+                    <th>{{transaction.receiver.username}}</th>
+                    <th>{{transaction.status}}</th>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock content %}

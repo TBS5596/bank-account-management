@@ -1,0 +1,136 @@
+{% extends "atm/base.html" %}
+
+{% block title %}Account{% endblock title %}
+
+{% block header %}
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="">Home</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0)">Dashboard</a></li>
+                    <li class="breadcrumb-item" aria-current="page">Account</li>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <div class="page-header-title">
+                  <h2 class="mb-0">Account</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+{% if messages %}
+  {% for message in messages %}
+      {% if message.tags == 'error' %}
+          <div class="alert alert-danger" role="alert">
+              <ul><li>{{ message }}</li></ul>
+          </div>
+      {% elif message.tags == 'success' %}
+          <div class="alert alert-success" role="alert">
+              <ul><li>{{ message }}</li></ul>
+          </div>
+      {% endif %}
+  {% endfor %}
+{% endif %}
+<div class="card bg-primary available-balance-card">
+  <div class="card-body p-3">
+    <div class="d-flex align-items-center justify-content-between">
+      <div>
+        <p class="mb-0 text-white text-opacity-75">Available Balance</p>
+        <h4 class="mb-0 text-white">{{account.balance}}</h4>
+      </div>
+      <div class="avtar">
+        <i class="ti ti-arrows-left-right f-18"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h5>Personal Details</h5>
+  </div>
+  <div class="card-body">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item px-0 pt-0">
+        <div class="row">
+          <div class="col-md-6">
+            <p class="mb-1 text-muted">Full Name</p>
+            <p class="mb-0">{{request.user.first_name}} {{request.user.last_name}}</p>
+          </div>
+          <div class="col-md-6">
+            <p class="mb-1 text-muted">Email</p>
+            <p class="mb-0">{{request.user.email}}</p>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item px-0">
+        <div class="row">
+          <div class="col-md-6">
+            <p class="mb-1 text-muted">Branch Name</p>
+            <p class="mb-0">{{account.branch_name}}</p>
+          </div>
+          <div class="col-md-6">
+            <p class="mb-1 text-muted">Branch Code</p>
+            <p class="mb-0">{{account.branch_code}}</p>
+          </div>
+        </div>
+      </li>
+      <li class="list-group-item px-0">
+        <div class="row">
+          <div class="col-md-6">
+            <p class="mb-1 text-muted">Account No</p>
+            <p class="mb-0">{{account.account_no}}</p>
+          </div>
+          <div class="col-md-6">
+            <p class="mb-1 text-muted">Card No</p>
+            <p class="mb-0">{{account.card_no}}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <h5>Transactions</h5>
+  </div>
+  <div class="card-body table-border-style">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Account No.</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Sender</th>
+            <th>Receiver</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+              <tr>
+                <th>{{transaction.id}}</th>
+                <th>{{transaction.account.account_no}}</th>
+                <th>{{transaction.transaction_type}}</th>
+                <th>{{transaction.amount}}</th>
+                <th>{{transaction.created_at}}</th>
+                <th>{% if transaction.sender %}{{transaction.sender}}{% else %}N/A{% endif %}</th>
+                <th>{% if transaction.recipient %}{{transaction.recipient}}{% else %}N/A{% endif %}</th>
+                <th>{{transaction.transaction_status}}</th>
+              </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock content %}
