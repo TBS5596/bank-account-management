@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from datetime import datetime
 from django.contrib.auth import authenticate
+from account.backend import CardNoPinBackend
 from django.contrib.auth import logout as logout_function, login as login_function
 from django.contrib.auth.decorators import login_required
 from account.models import Account
@@ -25,9 +26,10 @@ def login(request):
             messages.error(request, 'This card has expired, please contact the bank for a replacement')
             return redirect('base:index')
 
-        user = authenticate(username=account.user.username, password=account.user.password)
+        user = CardNoPinBackend().authenticate(request, card_no=card_no, pin=pin)
         if user is not None:
-            login_function(request, user)
+            backend = 'account.backends.CardNoPinBackend'
+            login_function(request, user, backend=backend)
             return redirect('account:index')
         else:
             messages.error(request, 'Technical Error!')
