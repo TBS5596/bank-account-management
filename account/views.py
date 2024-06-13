@@ -13,7 +13,7 @@ def rollback_transactions(request):
 
 @login_required
 def index(request):
-    rollback_transactions()
+    rollback_transactions(request)
     account = Account.objects.get(user=request.user)
     transactions = Transactions.objects.filter(Q(account=request.user.account) | Q(recipient=request.user) | Q(sender=request.user))
     return render(request, 'account/index.html', {'account': account, 'transactions': transactions})

@@ -62,7 +62,7 @@ def confirm_transfer(request, transfer_id):
             transaction.transaction_status = "success"
             transaction.save()
 
-            recipient_account = Account.objects.get(user=transaction.recepient)
+            recipient_account = Account.objects.get(user=transaction.recipient)
             recipient_account.balance = float(recipient_account.balance) + float(transaction.amount)
             recipient_account.save()
 
