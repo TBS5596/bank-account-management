@@ -41,10 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # 'rest_framework_simplejwt',
-    # 'crispy_bootstrap5',
-    # 'rest_framework',
-    # 'crispy_forms',
+    'rest_framework_simplejwt',
+    'crispy_bootstrap5',
+    'rest_framework',
+    'crispy_forms',
 
     'base',
     'api',
@@ -203,6 +203,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Crispy form configurations
 # https://django-crispy-forms.readthedocs.io/en/latest/index.html
 
-# CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
-# CRISPY_TEMPLATE_PACK = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"

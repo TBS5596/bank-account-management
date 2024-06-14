@@ -1,97 +1,35 @@
-{% load static %}
+{% extends "atm/base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<!-- [Head] start -->
+{% block title %}Login{% endblock title %}
 
-<head>
-  <title>Login</title>
-  <!-- [Meta] -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description"
-    content="Able Pro is trending dashboard template made using Bootstrap 5 design framework. Able Pro is available in Bootstrap, React, CodeIgniter, Angular,  and .net Technologies.">
-  <meta name="keywords"
-    content="Bootstrap admin template, Dashboard UI Kit, Dashboard Template, Backend Panel, react dashboard, angular dashboard">
-  <meta name="author" content="Phoenixcoded">
+{% block content %}
+<div class="flex justify-center">
+    <form action="{% url "base:login" %}" method="post" class="rounded-md shadow-sm bg-white p-5 md:h-1/4 md:w-1/4 sm:h-1/2 sm:w-1/2 mt-48">
+        {% csrf_token %}
 
-  <!-- [Favicon] icon -->
-  <link rel="icon" href="{% static 'assets/images/favicon.svg' %}" type="image/x-icon">
-  <!-- [Font] Family -->
-  <link rel="stylesheet" href="{% static 'assets/fonts/inter/inter.css' %}" id="main-font-link" />
-
-  <!-- [Tabler Icons] https://tablericons.com -->
-  <link rel="stylesheet" href="{% static 'assets/fonts/tabler-icons.min.css' %}" />
-  <!-- [Feather Icons] https://feathericons.com -->
-  <link rel="stylesheet" href="{% static 'assets/fonts/feather.css' %}" />
-  <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
-  <link rel="stylesheet" href="{% static 'assets/fonts/fontawesome.css' %}" />
-  <!-- [Material Icons] https://fonts.google.com/icons -->
-  <link rel="stylesheet" href="{% static 'assets/fonts/material.css' %}" />
-  <!-- [Template CSS Files] -->
-  <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" id="main-style-link" />
-  <link rel="stylesheet" href="{% static 'assets/css/style-preset.css' %}" />
-
-</head>
-<!-- [Head] end -->
-<!-- [Body] Start -->
-
-<body>
-    <div class="auth-main">
-        <div class="auth-wrapper v1">
-            <div class="auth-form">
-                <div class="card my-5">
-                    <div class="card-body">
-                        <form action="{% url "base:login" %}" method="post">
-                            {% csrf_token %}
-
-                            {% if messages %}
-                                {% for message in messages %}
-                                    {% if message.tags == 'error' %}
-                                        <div class="alert alert-danger" role="alert">
-                                            <ul><li>{{ message }}</li></ul>
-                                        </div>
-                                    {% elif message.tags == 'success' %}
-                                        <div class="alert alert-success" role="alert">
-                                            <ul><li>{{ message }}</li></ul>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-
-                            <div class="form-group mb-3">
-                                <input type="text" class="form-control" id="floatingInput" name="card_no" placeholder="Card No">
-                            </div>
-                            <div class="form-group mb-3">
-                                <input type="password" class="form-control" id="floatingInput1" name="pin" placeholder="PIN">
-                            </div>
-                            <div class="d-grid mt-4">
-                                <button type="submit" class="btn btn-primary">Login</button>
-                            </div>
-                            <hr>
-                            <a href="{% url "base:login-app" %}">Login with Username/Password</a>
-                        </form>
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                        {{ message }}
                     </div>
-                </div>
-            </div>
+                {% elif message.tags == 'success' %}
+                    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <div class="mb-2">
+          <input type="text" name="card_no" class="text-center block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-100 sm:text-sm sm:leading-6" placeholder="Card Number" maxlength="16" minlength="16">
         </div>
-    </div>
-
-  <!-- [Page Specific JS] start -->
-  <script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
-  <script src="{% static 'assets/js/pages/dashboard-default.js' %}"></script>
-  <!-- [Page Specific JS] end -->
-  <!-- Required Js -->
-  <script src="{% static 'assets/js/plugins/popper.min.js' %}"></script>
-  <script src="{% static 'assets/js/plugins/simplebar.min.js' %}"></script>
-  <script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
-  <script src="{% static 'assets/js/fonts/custom-font.js' %}"></script>
-  <script src="{% static 'assets/js/config.js' %}"></script>
-  <script src="{% static 'assets/js/pcoded.js' %}"></script>
-  <script src="{% static 'assets/js/plugins/feather.min.js' %}"></script>
-
-</body>
-<!-- [Body] end -->
-
-</html>
+        <div class="mb-3">
+          <input type="password" name="pin" class="text-center block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-100 sm:text-sm sm:leading-6" placeholder="Pin" maxlength="4" minlength="4">
+        </div>
+        <div>
+          <button type="submit" class="w-full bg-gray-400 text-white text-sm font-bold uppercase py-2 rounded shadow outline-none focus:outline-none">Login</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

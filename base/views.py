@@ -30,6 +30,7 @@ def login(request):
         if user is not None:
             backend = 'account.backends.CardNoPinBackend'
             login_function(request, user, backend=backend)
+            print("Logged in with card no and pin")
             return redirect('account:index')
         else:
             messages.error(request, 'Technical Error!')

@@ -1,27 +1,6 @@
 {% extends "atm/base.html" %}
 
-{% block title %}Account{% endblock title %}
-
-{% block header %}
-<div class="page-header">
-    <div class="page-block">
-        <div class="row align-items-center">
-            <div class="col-md-12">
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="">Home</a></li>
-                    <li class="breadcrumb-item"><a href="javascript: void(0)">Dashboard</a></li>
-                    <li class="breadcrumb-item" aria-current="page">Transfer</li>
-                </ul>
-            </div>
-            <div class="col-md-12">
-                <div class="page-header-title">
-                  <h2 class="mb-0">Transfer</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock header %}
+{% block title %}Transfer{% endblock title %}
 
 {% block content %}
 <div class="col-md-6">
@@ -31,21 +10,7 @@
       </div>
       <div class="card-body table-border-style">
         <form action="{% url "transaction:transfer" %}" method="post">
-            {% csrf_token %}
-
-            {% if messages %}
-                {% for message in messages %}
-                    {% if message.tags == 'error' %}
-                        <div class="alert alert-danger" role="alert">
-                            <ul><li>{{ message }}</li></ul>
-                        </div>
-                    {% elif message.tags == 'success' %}
-                        <div class="alert alert-success" role="alert">
-                            <ul><li>{{ message }}</li></ul>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+            
             <div class="form-group mb-3">
                 <input type="text" class="form-control" id="floatingInput1" name="recipient" placeholder="Receiver's Account Number">
             </div>
@@ -56,6 +21,46 @@
                 <button type="submit" class="btn btn-primary">Request</button>
             </div>
         </form>
+    </div>
+</div>
+
+<div class="flex justify-center">
+    <div class="rounded px-7 py-5 m-2 shadow w-10/12 mb-2 bg-white flex md:justify-center">
+        <div class="w-1/3">
+            <form action="post" action="{% url "transaction:transfer" %}" class="p-0.5">
+                <p class="text-lg mb-1">Transfer</p>
+                <p class="text-xs italic">Fill in the form below to start/initiate a transfer.</p>
+                <hr class="my-4">
+                {% csrf_token %}
+
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                                {{ message }}
+                            </div>
+                        {% elif message.tags == 'success' %}
+                            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+                <div class="mb-2">
+                    <input type="text" name="recipient" class="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-100 sm:text-sm sm:leading-6" placeholder="Account No." maxlength="13" minlength="13">
+                </div>
+                <div class="mb-3">
+                    <input type="number" name="amount" class="block w-full rounded-md border-0 p-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-100 sm:text-sm sm:leading-6" placeholder="Amount" min="1">
+                </div>
+                <div>
+                    <button type="submit" class="w-full bg-gray-400 text-white text-sm font-bold uppercase py-2 rounded shadow outline-none focus:outline-none">Initiate</button>
+                </div>
+            </form>
+        </div>
+        <div class="w-2/3">
+            <div class="p-0.5"></div>
+        </div>
     </div>
 </div>
 {% endblock content %}
